@@ -10,7 +10,9 @@
                 "./js/playground.common.js",
                 "./js/playground.desktop.js",
                 "./js/lib/requestAnimFrame.js",
-                "./socket.io/socket.io.js"
+                "./socket.io/socket.io.js",
+                "./js/lib/Vector2D.js",
+                "./js/lib/Ball.js"
             );
             head.ready(function(){
                 console.info('Scripts loaded');
@@ -23,5 +25,6 @@
         <h2>Gyro infos</h2>
         <ul id="infos"></ul>
         <div id="errors"></div>
+        <canvas id="playground" width="1024" height="768"></canvas>
     </body>
 </html>

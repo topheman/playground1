@@ -14,10 +14,34 @@ playground = {};
 playground.common = (function(){
     
     var env = {
-       hostname : '192.168.211.52',
-       port : '8000'
-//       hostname : 'localhost',
-//       port : '8000'
+        hostname : '192.168.211.52',
+        port : '8000'
+    //       hostname : 'localhost',
+    //       port : '8000'
+    }
+    
+    var stage = {
+        width : 600,
+        height : 500
+    }
+    
+    var ballConst = {
+        radius           : 15,
+        mass             : 1.3,
+        gravity          : 1,
+        elasticity       : 0.98,
+        friction         : 0.94,
+        lifetime         : Infinity,
+        options          : {
+            aging:true,
+            bouncingColor:'#000060',
+            bouncingRate: 20,
+            glowingColor:'#9922DD',
+            glowingRate:'#9922DD',
+            explodingRadius:80,
+            explodingRate:40,
+            explodingAlpha:true
+        }
     }
     
     /**
@@ -42,10 +66,25 @@ playground.common = (function(){
         return color;
     }
     
+    /**
+     * From Ball.js - Ball.prototype.setRandomPositionAndSpeedInBounds
+     */
+    function getRandomPositionAndSpeedInBounds(){
+        return {
+            x : Math.random()*stage.width,
+            y : Math.random()*stage.height,
+            velocityX : Math.random()*10,
+            velocityY : Math.random()*10
+        }
+    }
+    
     return {
         isRemoteTiltEnabled : isRemoteTiltEnabled,
         getRandomColor : getRandomColor,
-        environnement : env
+        environnement : env,
+        stage : stage,
+        getRandomPositionAndSpeedInBounds : getRandomPositionAndSpeedInBounds,
+        ballConst : ballConst
     }
     
 })()

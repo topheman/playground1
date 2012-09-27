@@ -18,7 +18,10 @@ io.sockets.on('connection', function (socket) {
         var color = common.getRandomColor();
         socket.emit('mobile-connected', {color: color});
         console.log('mobile-connected', mobiles[socket.id]);
-        socket.broadcast.emit('desktop-add-mobile',{id:socket.id, color: color});
+        var infos = playground.common.getRandomPositionAndSpeedInBounds();
+        infos.id = socket.id;
+        infos.color = color;
+        socket.broadcast.emit('desktop-add-mobile',infos);
     });
     socket.on('mobile-infos',function(data){
         mobiles[socket.id].inputX = data.inputX;

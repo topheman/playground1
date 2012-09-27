@@ -1,10 +1,15 @@
 playground.desktop = (function(){
     
     var socket,
-    balls = {}
+    balls = {},
+    width,
+    height,
+    ctx,
+    DEVICEMOTION_INPUT_RATIO = 0.2;
     ;
     
     function init(){
+        prepareCanvas();
         socketConnect();
         render();//activer au callback ?
     }
@@ -31,17 +36,16 @@ playground.desktop = (function(){
             removeMobile(data);
         });
         socket.on('desktop-update-motion-infos',function(data){
-            console.log('desktop update',data);
+//            console.log('desktop update',data);
             updateMotionInfos(data);
+            manageCollisions();
         });
     }
     
     function addMobile(data){
-        balls[data.id] = {
-            color: data.color
-        }
+        balls[data.id] = new Ball(data.x, data.y, playground.common.ballConst.radius, playground.common.ballConst.mass, playground.common.ballConst.gravity, playground.common.ballConst.elasticity, playground.common.ballConst.friction, data.color, playground.common.ballConst.lifeTime, playground.common.ballConst.options)
         console.info('addMobile',data,balls);
-        document.getElementById('infos').innerHTML += '<li id="'+data.id+'" style="color:'+data.color+'"><span>toto</span></li>';
+        document.getElementById('infos').innerHTML += '<li id="'+data.id+'" style="color:'+balls[data.id].getColor()+'"><span>toto</span></li>';
     }
     
     function removeMobile(data){
@@ -53,7 +57,7 @@ playground.desktop = (function(){
     }
     
     function updateMotionInfos(mobiles){
-        console.info('updateMotionInfos');
+//        console.info('updateMotionInfos');
         loop1: for(var id in balls){
             loop2: for(var mobileId in mobiles){
                 if(mobileId === id){
@@ -67,6 +71,34 @@ playground.desktop = (function(){
     function updateBall(ball,mobileInfos){
         ball.inputX = mobileInfos.inputX;
         ball.inputY = mobileInfos.inputY;
+        ball.move(ball.inputX*DEVICEMOTION_INPUT_RATIO,-ball.inputY*DEVICEMOTION_INPUT_RATIO);
+        ball.manageStageBorderCollision(width, height);
+    }
+    
+    /**
+     * @see http://stackoverflow.com/questions/6748781/looping-javascript-hashmap#6748870
+     * for looping through hashmap like an array
+     */
+    function manageCollisions(){
+        var i,j,keys,ii;
+        for (i = 0, keys = Object.keys(balls), ii = keys.length; i < ii; i++) {
+            for (j = i+1; j < ii; j++){
+                if(balls[keys[i]].checkBallCollision(balls[keys[j]]) === true){
+                    balls[keys[i]].resolveBallCollision(balls[keys[j]]);
+                }
+            }
+        }
+    }
+    
+    function prepareCanvas(){
+        var el = document.getElementById('playground');
+        width   = el.width = playground.common.stage.width;
+        height  = el.height = playground.common.stage.height;
+        ctx = el.getContext('2d');
+    }
+    
+    function clearAllContext(){
+        ctx.clearRect ( 0 , 0 , width , height );
     }
     
     function renderInfos(){
@@ -76,7 +108,10 @@ playground.desktop = (function(){
     }
     
     function renderScreen(){
-        
+        clearAllContext();
+        for(var id in balls){
+            balls[id].draw(ctx);
+        }
     }
     
     function render(){
