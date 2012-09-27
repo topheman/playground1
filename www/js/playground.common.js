@@ -15,8 +15,10 @@ playground.common = (function(){
     
     var env = {
 //        hostname : '192.168.211.52',
-        hostname : '192.168.1.10',
-        port : '8000'
+//        hostname : '192.168.1.10',
+//        port : '8000'
+        hostname : 'http://playground1.eu01.aws.af.cm',
+        port : '80'
     //       hostname : 'localhost',
     //       port : '8000'
     }
