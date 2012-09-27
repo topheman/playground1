@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Playground 1.0 - Mobile</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="app-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-touch-fullscreen" content="yes" />
+        <meta name=viewport content="width=device-width,user-scalable=no" />
+        <link rel="stylesheet" type="text/css" href="./css/mobile.css" />
+        <script type="text/javascript" src="./js/lib/head.js"></script>
+        <script>
+            head.js(
+                "./js/playground.common.js",
+                "./js/playground.mobile.js",
+                "./js/lib/requestAnimFrame.js",
+                "./socket.io/socket.io.js"
+            );
+            if(!navigator.userAgent.match(/iPhone/i))
+                head.js("http://remote-tilt.com/js/device-motion-polyfill.js");
+            head.ready(function(){
+                console.info('Scripts loaded');
+                playground.mobile.init();
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Playground 1.0 - Mobile</h1>
+        <h2>Gyro infos</h2>
+        <div id="coords"></div>
+        <div id="errors"></div>
+        <div id="ball"></div>
+    </body>
+</html>

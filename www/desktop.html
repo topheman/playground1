@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Playground 1.0 - Desktop</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="./css/desktop.css" />
+        <script type="text/javascript" src="./js/lib/head.js"></script>
+        <script>
+            head.js(
+                "./js/playground.common.js",
+                "./js/playground.desktop.js",
+                "./js/lib/requestAnimFrame.js",
+                "./socket.io/socket.io.js"
+            );
+            head.ready(function(){
+                console.info('Scripts loaded');
+                playground.desktop.init();
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Playground 1.0 - Desktop</h1>
+        <h2>Gyro infos</h2>
+        <ul id="infos"></ul>
+        <div id="errors"></div>
+    </body>
+</html>
