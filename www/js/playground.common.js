@@ -14,7 +14,8 @@ playground = {};
 playground.common = (function(){
     
     var env = {
-        hostname : '192.168.211.52',
+//        hostname : '192.168.211.52',
+        hostname : '192.168.1.10',
         port : '8000'
     //       hostname : 'localhost',
     //       port : '8000'
