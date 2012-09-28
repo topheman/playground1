@@ -5,22 +5,20 @@ playground.desktop = (function(){
     width,
     height,
     ctx,
-    DEVICEMOTION_INPUT_RATIO = 0.2;
+    hostname = playground.common.environnement.hostname,
+    port = playground.common.environnement.port,
+    DEVICEMOTION_INPUT_RATIO = 0.2,
+    lastTime = 0
     ;
     
     function init(){
         prepareCanvas();
         socketConnect();
-        render();//activer au callback ?
-    }
-
-    function updateCoordinates(){
-        document.getElementById("coords").innerHTML = "inputX : "+inputX+" - inputY : "+inputY;
-        window.requestAnimFrame(updateCoordinates);
+        render();
     }
     
     function socketConnect(){
-        socket = io.connect('http://'+playground.common.environnement.hostname+':'+playground.common.environnement.port);
+        socket = io.connect('http://'+hostname+':'+port);
         socket.on('who-is-there',function(data){
             socket.emit('desktop-connect',{});
         });
@@ -115,6 +113,9 @@ playground.desktop = (function(){
     }
     
     function render(){
+//        var frame = (new Date()).getTime() - lastTime;
+//        lastTime = (new Date()).getTime();
+//        console.info('frame',frame);
         renderInfos();
         renderScreen();
         window.requestAnimFrame(render);
