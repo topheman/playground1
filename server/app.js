@@ -3,7 +3,7 @@ io = require('socket.io').listen(httpStaticServer),
 common = require('../www/js/playground.common.js')
 ;
 
-httpStaticServer.listen(playground.common.environnement.port);
+httpStaticServer.listen(process ? process.env.VCAP_APP_PORT : playground.common.environnement.port);
 
 var mobiles = {};
 var desktops = {};
