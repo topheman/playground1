@@ -1,7 +1,10 @@
 playground.mobile = (function(){
     
     var inputX = 0,
-    inputY = 0,socket
+    inputY = 0,
+    socket,
+    hostname = playground.common.environnement.hostname,
+    port = playground.common.environnement.port
     ;
     
     function isDeviceMotionEnabled(){
@@ -41,22 +44,19 @@ playground.mobile = (function(){
             return;
         //listen to the orientation of the device
         window.addEventListener("devicemotion", function(event){
-            inputX = event.accelerationIncludingGravity.x;
-            inputY = event.accelerationIncludingGravity.y;
+            inputX = (event.accelerationIncludingGravity.x).toFixed(5);
+            inputY = (event.accelerationIncludingGravity.y).toFixed(5);
         }, false);
-        //update the coordinates on the screen
-        updateCoordinates();
         //push coordinates to server via socket.io
         socketConnect(pushMotionInfos);
     }
 
     function updateCoordinates(){
         document.getElementById("coords").innerHTML = "inputX : "+inputX+" - inputY : "+inputY;
-        window.requestAnimFrame(updateCoordinates);
     }
     
     function socketConnect(callback){
-        socket = io.connect('http://'+playground.common.environnement.hostname+':'+playground.common.environnement.port);
+        socket = io.connect('http://'+hostname+':'+port);
         socket.on('who-is-there', function(data){
             socket.emit('mobile-connect',{});
         });
@@ -74,6 +74,7 @@ playground.mobile = (function(){
             inputX: inputX,
             inputY: inputY
         });
+        updateCoordinates();
         window.requestAnimFrame(pushMotionInfos);
     }
 

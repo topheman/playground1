@@ -8,6 +8,8 @@ httpStaticServer.listen(process ? process.env.VCAP_APP_PORT : playground.common.
 var mobiles = {};
 var desktops = {};
 
+io.set('log level', 0);
+
 io.sockets.on('connection', function (socket) {
     //first, ask which client it is (mobile or desktop)
     socket.emit('who-is-there',{});
