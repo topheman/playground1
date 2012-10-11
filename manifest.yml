@@ -9,7 +9,7 @@ applications:
         description: Standalone Application
         exec: 
     runtime: node06
-    command: node /server/app.js
+    command: node server/app.js
     infra: eu-aws
     url: http://playground1.eu01.aws.af.cm/
     mem: 256M

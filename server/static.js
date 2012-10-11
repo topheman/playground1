@@ -13,7 +13,7 @@ var http = require('http');
 
 var nodeStatic = require('node-static');
 
-var clientFiles = new nodeStatic.Server(__dirname+'/../www');
+var clientFiles = new nodeStatic.Server(__dirname+'/../www',{ cache: 0 });
 
 var httpServer = http.createServer(
     function(request, response) {
